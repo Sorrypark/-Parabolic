@@ -1,2 +1,2 @@
-# 포물선Parabloic
+# 포물선Parabolic
 Projects Replicated Store
