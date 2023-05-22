@@ -1,0 +1,108 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Parabolic_Motion
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                Console.Write("속력을 입력하세요: ");
+                double velocity = Convert.ToDouble(Console.ReadLine());
+                double time = 0;
+                Console.Write("\n중력을 입력하세요(기본 : 9.8): ");
+                double gravity = Convert.ToDouble(Console.ReadLine());
+                Console.Write("\n각도 입력하세요: ");
+                double angle = Convert.ToDouble(Console.ReadLine());
+                Parabolic p = new Parabolic(velocity, time, gravity, angle);
+
+                double MaxY = 0;
+                while (true)
+                {
+                    double x = p.GetX();
+                    double y = p.GetY();
+                    if (MaxY < y)
+                        MaxY = y;
+
+                    if (x != 0 && y <= 0)
+                        break;
+
+                    Console.WriteLine("포물선/ X : " + p.GetX() + "/ Y : " + p.GetY());
+                    time += 0.1;
+                    p.Time = time;
+                }
+                Console.WriteLine("================================================================================");
+                Console.WriteLine("[결과] 날아간 거리 : " + p.GetX().ToString());
+                Console.WriteLine("[결과] 최대 높이 : " + MaxY.ToString());
+                Console.WriteLine("0  입력시 종료");
+                Console.WriteLine("================================================================================");
+                
+                try
+                {
+                    int key = Convert.ToInt32(Console.ReadLine());
+                    if(key == 0)
+                    {
+                        break;
+                    }
+                }catch(Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    Console.Clear();
+                }
+            }
+        }
+
+    }
+    public class Parabolic
+    {
+        private double velocity = 0;
+        private double time = 0;
+        private double gravity = 0;
+        private double angle = 0;
+        public Parabolic(double v, double t, double g, double a) {
+            velocity = v;
+            time = t;
+            gravity = g;
+            angle = a;
+        }
+
+        public double Velocity
+        {
+            get { return velocity; }
+            set { velocity = value; }
+        }
+        public double Time
+        {
+            get { return time; }
+            set { time = value; }
+        }
+        public double Angle
+        {
+            get { return angle; }
+            set { angle = value; }
+        }
+        public double Gravity
+        {
+            get { return gravity; }
+            set { gravity = value; }
+        }
+
+        public double GetX() {
+            double res = 0;
+            res = velocity * Math.Cos(angle) * time;
+            return res;
+        }
+        public double GetY()
+        {
+            double res = 0;
+            res = velocity * Math.Sin(angle) * time - (0.5 * gravity * Math.Pow(time, 2));
+            return res;
+        }
+    }
+}
